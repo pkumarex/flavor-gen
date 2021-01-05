@@ -165,7 +165,7 @@ Available Commands:
 	-f                     To provide Flavor template json file
 	-m                     To provide Hostmanifest json file
 	help|-h|--help         Show this help message
-	log|-l|--log           To log the execution
+	-log                   To log the execution
 
 `
 
