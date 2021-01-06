@@ -15,6 +15,7 @@ import (
 	"path/filepath"
 	"strings"
 
+	"github.com/google/uuid"
 	"github.com/pkg/errors"
 
 	model "github.com/flavor-gen/models"
@@ -114,8 +115,11 @@ func processJsonFile(manifestFilepath string, flavorTemplates []string) (model.H
 			return model.HostManifest{}, nil, errors.Wrap(err, "flavor_gen:processJsonFile() Could not unmarshal flavor template json")
 		}
 
-		if &flavorTemplate == nil || len(flavorTemplate.Condition) == 0 {
-			return model.HostManifest{}, nil, errors.Wrap(err, "flavor_gen:processJsonFile() Invalid flavor template given")
+		if flavorTemplate.ID == uuid.Nil {
+			flavorTemplate.ID, err = uuid.NewRandom()
+			if err != nil {
+				return model.HostManifest{}, nil, errors.Wrap(err, "flavor_gen:processJsonFile() Failed to generate UUID for flavor template")
+			}
 		}
 
 		conditionEval := false

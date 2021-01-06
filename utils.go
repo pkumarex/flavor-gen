@@ -393,7 +393,11 @@ func UpdateMetaSectionDetails(flavorPart model.FlavorPartTypes, newMeta *model.M
 	log.Println("utils:UpdateMetaSectionDetails() Entering")
 	defer log.Println("utils:UpdateMetaSectionDetails() Leaving")
 
+	var flavorTemplateID []uuid.UUID
+
 	for _, flavorTemplate := range *flavorTemplates {
+		flavorTemplateID = append(flavorTemplateID, flavorTemplate.ID)
+
 		var flavor *model.FlavorPart
 
 		switch flavorPart {
@@ -406,7 +410,7 @@ func UpdateMetaSectionDetails(flavorPart model.FlavorPartTypes, newMeta *model.M
 		}
 
 		if flavor != nil {
-
+			newMeta.Description["flavor_template_ids"] = flavorTemplateID
 			for key, value := range flavor.Meta {
 				newMeta.Description[key] = value
 			}
